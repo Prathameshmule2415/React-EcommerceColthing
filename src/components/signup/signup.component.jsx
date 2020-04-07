@@ -6,7 +6,6 @@ import CustomButton from "../custom-button/custom-button.component";
 import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
 import "./signup.styles.scss";
-
 class SignUp extends React.Component {
   constructor() {
     super();
@@ -21,16 +20,20 @@ class SignUp extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+
     const { displayName, email, password, confirmPassword } = this.state;
+
     if (password !== confirmPassword) {
-      alert("password don't match");
+      alert("passwords don't match");
       return;
     }
+
     try {
       const { user } = await auth.createUserWithEmailAndPassword(
         email,
         password
       );
+
       await createUserProfileDocument(user, { displayName });
 
       this.setState({
@@ -46,12 +49,12 @@ class SignUp extends React.Component {
 
   handleChange = (event) => {
     const { name, value } = event.target;
+
     this.setState({ [name]: value });
   };
 
   render() {
     const { displayName, email, password, confirmPassword } = this.state;
-
     return (
       <div className="sign-up">
         <h2 className="title">I do not have a account</h2>
@@ -59,17 +62,18 @@ class SignUp extends React.Component {
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           <FormInput
             type="text"
-            name="displayname"
+            name="displayName"
             value={displayName}
             onChange={this.handleChange}
             label="Display Name"
+            required
           />
           <FormInput
             type="email"
             name="email"
             value={email}
             onChange={this.handleChange}
-            label="email"
+            label="Email"
             required
           />
           <FormInput
@@ -77,7 +81,7 @@ class SignUp extends React.Component {
             name="password"
             value={password}
             onChange={this.handleChange}
-            label="password"
+            label="Password"
             required
           />
           <FormInput
@@ -88,7 +92,7 @@ class SignUp extends React.Component {
             label="Confirm Password"
             required
           />
-          <CustomButton type="submit">Sign Up</CustomButton>
+          <CustomButton type="submit">SIGN UP</CustomButton>
         </form>
       </div>
     );
